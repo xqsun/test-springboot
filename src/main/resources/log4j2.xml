@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration status="off" monitorInterval="30">
+  <appenders>
+    <Console name="Console" target="SYSTEM_OUT">
+        <PatternLayout charset="UTF-8" pattern="%d %p [%t] %c{1}:%L - %m%n" />
+    </Console>
+	
+	<RollingRandomAccessFile name="httpClient" fileName="logs/http.log" filePattern="logs/$${date:yyyy-MM}/http-%d{yyyy-MM-dd}-%i.log.gz" append="true" immediateFlush="false">
+      <PatternLayout charset="UTF-8" Pattern="%d %-5p %c{2}(Line:%L) %x[%t] - %m%n" />
+      <Policies>
+      	<TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+        <SizeBasedTriggeringPolicy size="1GB" />
+      </Policies>
+      <DefaultRolloverStrategy max="50" compressionLevel="6" fileIndex="1"/>
+    </RollingRandomAccessFile>
+
+  </appenders>
+
+  <loggers>		
+	<AsyncLogger name="com.test.springboot" level="INFO" additivity="false" includeLocation="false">
+  		<appender-ref ref="Console"/>
+	</AsyncLogger>
+	
+  	<AsyncRoot level="info" includeLocation="true"> 
+        <appender-ref ref="Console" />
+    </AsyncRoot>
+  </loggers>
+</configuration>
